@@ -134,6 +134,13 @@ function Navbar() {
                   </button>
                 </Link>
               </li>
+              <li>
+                <Link to="Migration">
+                     <button variant="primary" size="lg" active>
+                      Migrate to MongoDB
+                      </button>{' '}
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
