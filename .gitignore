@@ -32,3 +32,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+## API exludes
+*__pycache__/
+
+## Frontend node_modules
+*node_modules/
