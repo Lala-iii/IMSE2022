@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    volumes:
+      - ./data/db:/var/lib/mysql/data
+
+  api:
+    build: ./api
+    restart: always
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    expose:
+      - 8020
+    depends_on:
+      - db
