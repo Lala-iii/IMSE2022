@@ -10,6 +10,6 @@ public interface ITransactionRepository {
     boolean deleteTransaction(Long id);
     boolean createTransaction(Transaction transaction);
     boolean updateTransaction(Long id, Transaction transaction);
-    Transaction findTransaction(Long id);
+    String findTransaction(Long id);
     List<Transaction> findAll();
 }
