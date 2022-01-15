@@ -23,8 +23,8 @@ public class Transaction {
 
     private Long sender_account;
     private Long receiver_account;
-    private Long transaction_type;
-    private Long expense_type;
+    private String transaction_type;
+    private String expense_type;
     private Date date_of_occurrence;
     private String payment_reference;
     private double amount;
