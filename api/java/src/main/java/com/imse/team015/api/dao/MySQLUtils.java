@@ -2,7 +2,7 @@ package com.imse.team015.api.dao;
 
 import java.sql.*;
 
-public class MYSQLUtils {
+public class MySQLUtils {
     private static final String url = "dbc:mysql://localhost:3306/bankapp";
     private static final String username = "admin";
     private static final String password = "admin";

@@ -3,9 +3,7 @@ package com.imse.team015.api.controller;
 
 import com.imse.team015.api.service.APIDataService;
 import com.imse.team015.model.Customer;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +22,28 @@ public class APIController {
         return customerReposiory.findAll();
     }*/
 
+    @GetMapping
+    String getTransactions() {
+        return service.getTransactions();
+    }
 
+    @GetMapping("/transaction/{id}")
+    String getTransactionById(@PathVariable Long id) {
+        return service.getTransactionById(id);
+    }
 
+    @PostMapping("/transaction")
+    void createTransaction(@RequestBody String transaction) {
+        service.createTransaction(transaction);
+    }
+
+    @GetMapping("/switchToMongo")
+    void switchDatabase() {
+        service.switchToMongo(true);
+    }
+
+    @GetMapping("/switchToMySQL")
+    void switchToMySQL() {
+        service.switchToMongo(false);
+    }
 }
