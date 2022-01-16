@@ -1,5 +1,6 @@
 package com.imse.team015.model;
 
+import com.imse.team015.api.dao.MySQLUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class Account implements DataGenerator {
     private String currency;
     private Long owner; // customerid
 
+   private MySQLUtils mySQLUtils = new MySQLUtils();
 
     @Override
     public void generateData(){
@@ -54,19 +56,23 @@ public class Account implements DataGenerator {
                     date[ThreadLocalRandom.current().nextInt(0, date.length)]+ "', " + ibans[ThreadLocalRandom.current().nextInt(0, ibans.length)] +
                     ", " + bics[ThreadLocalRandom.current().nextInt(0, bics.length)] + ", '" + balances[ThreadLocalRandom.current().nextInt(0, balances.length)] +
                     "', '" + currencies[ThreadLocalRandom.current().nextInt(0, currencies.length)] + ","+ i + ")" ;
+
+            this.mySQLUtils.executeQuery(RANDOM_ACCOUNT_QUERY);
         }
     }
 
     @Override
-    public void createTable() {
+    public  void createTable() {
         String CREATE_ACCOUNT_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS account(id int primary key," +
                 "account_type varchar, " +
                 "date_of_creation varchar, iban varchar, bic varchar, balance double, currency varchar," +
                 "CONSTRAINT fk_owner FOREIGN KEY(owner) REFERENCES customer(id))";
+        this.mySQLUtils.executeQuery(CREATE_ACCOUNT_TABLE_QUERY);
     }
     @Override
-    public void dropTable() {
+    public  void dropTable() {
         String DROP_ACCOUNT_IF_EXISTS_QUERY = "DROP TABLE IF EXISTS account";
+        this.mySQLUtils.executeQuery(DROP_ACCOUNT_IF_EXISTS_QUERY );
     }
 
 
