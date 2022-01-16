@@ -1,5 +1,7 @@
 package com.imse.team015.api.dao;
 
+import com.imse.team015.model.Account;
+import com.imse.team015.model.Customer;
 import com.imse.team015.model.Transaction;
 import org.springframework.stereotype.Repository;
 
@@ -14,20 +16,14 @@ public interface IRepository {
     String findAllTransactions();
 
     void deleteAccount(Long id);
-    void createAccount(Transaction transaction);
-    void updateAccount(Long id, Transaction transaction);
+    void createAccount(Account a);
+    void updateAccount(Long id, Account a);
     String findAccount(Long id);
     String findAllAccounts();
 
     void deleteCustomer(Long id);
-    void createCustomer(Transaction transaction);
-    void updateCustomer(Long id, Transaction transaction);
+    void createCustomer(Customer c);
+    void updateCustomer(Long id, Customer c);
     String findCustomer(Long id);
     String findAllCustomers();
-
-    void deleteEmployee(Long id);
-    void createEmployee(Transaction transaction);
-    void updateEmployee(Long id, Transaction transaction);
-    String findEmployee(Long id);
-    String findAllEmployees();
 }

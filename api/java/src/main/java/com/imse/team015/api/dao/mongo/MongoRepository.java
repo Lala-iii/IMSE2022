@@ -1,6 +1,8 @@
 package com.imse.team015.api.dao.mongo;
 
 import com.imse.team015.api.dao.IRepository;
+import com.imse.team015.model.Account;
+import com.imse.team015.model.Customer;
 import com.imse.team015.model.Transaction;
 
 public class MongoRepository implements IRepository {
@@ -10,12 +12,12 @@ public class MongoRepository implements IRepository {
     }
 
     @Override
-    public void createTransaction(Transaction transaction) {
+    public void createTransaction(Transaction t) {
 
     }
 
     @Override
-    public void updateTransaction(Long id, Transaction transaction) {
+    public void updateTransaction(Long id, Transaction t) {
 
     }
 
@@ -35,12 +37,12 @@ public class MongoRepository implements IRepository {
     }
 
     @Override
-    public void createAccount(Transaction transaction) {
+    public void createAccount(Account a) {
 
     }
 
     @Override
-    public void updateAccount(Long id, Transaction transaction) {
+    public void updateAccount(Long id, Account a) {
 
     }
 
@@ -60,12 +62,12 @@ public class MongoRepository implements IRepository {
     }
 
     @Override
-    public void createCustomer(Transaction transaction) {
+    public void createCustomer(Customer c) {
 
     }
 
     @Override
-    public void updateCustomer(Long id, Transaction transaction) {
+    public void updateCustomer(Long id, Customer c) {
 
     }
 
@@ -76,31 +78,6 @@ public class MongoRepository implements IRepository {
 
     @Override
     public String findAllCustomers() {
-        return null;
-    }
-
-    @Override
-    public void deleteEmployee(Long id) {
-
-    }
-
-    @Override
-    public void createEmployee(Transaction transaction) {
-
-    }
-
-    @Override
-    public void updateEmployee(Long id, Transaction transaction) {
-
-    }
-
-    @Override
-    public String findEmployee(Long id) {
-        return null;
-    }
-
-    @Override
-    public String findAllEmployees() {
         return null;
     }
 }
