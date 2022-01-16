@@ -61,4 +61,11 @@ public class Customer  implements DataGenerator{
          }
 
     }
+
+    @Override
+    public void createTable() {
+        String CREATE_CUSTOMER_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS customer(id int primary key," +
+                "firstname varchar, " +
+                "lastname varchar, gender varchar, svnr int, date_of_birth varchar, address varchar,";
+    }
 }

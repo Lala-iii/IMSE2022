@@ -24,8 +24,8 @@ public class Transaction implements DataGenerator{
 
     //private Long sender_account;
     //private Long receiver_account;
-    private String sender_account;
-    private String receiver_account;
+    private Long sender_account;
+    private Long receiver_account;
     private String transaction_type;
     private String expense_type;
     //private Date date_of_occurrence;
@@ -54,10 +54,19 @@ public class Transaction implements DataGenerator{
                 921.34,921.32,892.34,9104.67,204.33,112.34,321.45,2234.56,224.11,1207.89,216.31,121.11};
         for(int i=0; i<100;i++){
             String RANDOM_ACCOUNT_QUERY = "INSERT INTO transaction(id, sender_account, receiver_account, transaction_type, date_of_occurrence, payment_reference, amount) " +
-                    "VALUES (" + i + ",'" + accounts[ThreadLocalRandom.current().nextInt(0, accounts.length)] + "', '" +
-                    accounts[ThreadLocalRandom.current().nextInt(0, accounts.length)]+ "', " + transactiontypes[ThreadLocalRandom.current().nextInt(0, transactiontypes.length)] +
+                    "VALUES (" + i + ",'" + i + "', '" +
+                    i + "', " + transactiontypes[ThreadLocalRandom.current().nextInt(0, transactiontypes.length)] +
                     ", " + expensetypes[ThreadLocalRandom.current().nextInt(0, expensetypes.length)] + ", '" + paymentReference[ThreadLocalRandom.current().nextInt(0, paymentReference.length)] +
                     "', '" + amounts[ThreadLocalRandom.current().nextInt(0, amounts.length)] + ")" ;
         }
+    }
+
+    @Override
+    public void createTable() {
+        String CREATE_TRANSACTION_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS transaction(id int primary key," +
+                "transaction_type varchar, " +
+                "expense_type varchar, date_of_occurrence varchar, payment_reference varchar, amount double " +
+                "CONSTRAINT fk_sender FOREIGN KEY(sender_account) REFERENCES account(id))"+
+                "CONSTRAINT fk_receiver FOREIGN KEY(receiver_account) REFERENCES account(id))";
     }
 }

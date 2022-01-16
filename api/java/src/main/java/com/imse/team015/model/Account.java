@@ -19,14 +19,15 @@ public class Account implements DataGenerator {
     //@GeneratedValue
     private Long id;
 
-    private Long owner; // customerid
-    private String account_type;
+   private String account_type;
     //private Date date_of_creation;
     private String date_of_creation;
     private String iban;
     private String bic;
     private double balance;
     private String currency;
+    private Long owner; // customerid
+
 
     @Override
     public void generateData(){
@@ -49,11 +50,19 @@ public class Account implements DataGenerator {
         String[] currencies = new String[] {"EUR","GBP","AEL","TRY"};
         for(int i=0; i<100; i++){
             String RANDOM_ACCOUNT_QUERY = "INSERT INTO account(id, owner, account_type, date_of_creation, iban, bic, balance, currency) " +
-                    "VALUES (" + i + ", " + i + ",'" + accountypes[ThreadLocalRandom.current().nextInt(0, accountypes.length)] + "', '" +
+                    "VALUES (" + i + ",'" + accountypes[ThreadLocalRandom.current().nextInt(0, accountypes.length)] + "', '" +
                     date[ThreadLocalRandom.current().nextInt(0, date.length)]+ "', " + ibans[ThreadLocalRandom.current().nextInt(0, ibans.length)] +
                     ", " + bics[ThreadLocalRandom.current().nextInt(0, bics.length)] + ", '" + balances[ThreadLocalRandom.current().nextInt(0, balances.length)] +
-                    "', '" + currencies[ThreadLocalRandom.current().nextInt(0, currencies.length)] + ")" ;
+                    "', '" + currencies[ThreadLocalRandom.current().nextInt(0, currencies.length)] + ","+ i + ")" ;
         }
+    }
+
+    @Override
+    public void createTable() {
+        String CREATE_ACCOUNT_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS account(id int primary key," +
+                "account_type varchar, " +
+                "date_of_creation varchar, iban varchar, bic varchar, balance double, currency varchar," +
+                "CONSTRAINT fk_owner FOREIGN KEY(owner) REFERENCES customer(id))";
     }
 
 
