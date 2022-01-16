@@ -61,8 +61,8 @@ public class MySQLRepository implements IRepository {
     private Transaction fillTransaction(ResultSet resultSet) throws SQLException {
         Transaction t = new Transaction();
         t.setId(resultSet.getLong("id"));
-        t.setSender_account(resultSet.getString("sender_account"));
-        t.setReceiver_account(resultSet.getString("receiver_account"));
+        t.setSender_account(resultSet.getLong("sender_account"));
+        t.setReceiver_account(resultSet.getLong("receiver_account"));
         t.setTransaction_type(resultSet.getString("transaction_type"));
         t.setExpense_type(resultSet.getString("expense_type"));
         t.setDate_of_occurrence(resultSet.getString("date_of_occurrence"));
