@@ -69,4 +69,9 @@ public class Transaction implements DataGenerator{
                 "CONSTRAINT fk_sender FOREIGN KEY(sender_account) REFERENCES account(id))"+
                 "CONSTRAINT fk_receiver FOREIGN KEY(receiver_account) REFERENCES account(id))";
     }
+
+    @Override
+    public void dropTable() {
+        String DROP_TRANSACTION_IF_EXISTS_QUERY = "DROP TABLE IF EXISTS transaction";
+    }
 }

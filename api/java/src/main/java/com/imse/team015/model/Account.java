@@ -64,6 +64,10 @@ public class Account implements DataGenerator {
                 "date_of_creation varchar, iban varchar, bic varchar, balance double, currency varchar," +
                 "CONSTRAINT fk_owner FOREIGN KEY(owner) REFERENCES customer(id))";
     }
+    @Override
+    public void dropTable() {
+        String DROP_ACCOUNT_IF_EXISTS_QUERY = "DROP TABLE IF EXISTS account";
+    }
 
 
 }

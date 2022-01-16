@@ -68,4 +68,10 @@ public class Customer  implements DataGenerator{
                 "firstname varchar, " +
                 "lastname varchar, gender varchar, svnr int, date_of_birth varchar, address varchar,";
     }
+
+    @Override
+    public void dropTable() {
+        String DROP_CUSTOMER_IF_EXISTS_QUERY = "DROP TABLE IF EXISTS customer";
+    }
+
 }
