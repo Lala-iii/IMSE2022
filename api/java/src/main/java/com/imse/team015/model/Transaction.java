@@ -34,7 +34,6 @@ public class Transaction implements DataGenerator{
     private String payment_reference;
     private Double amount;
 
-    private MySQLUtils mySQLUtils = new MySQLUtils();
 
     @Override
     public void generateData() {
@@ -60,7 +59,7 @@ public class Transaction implements DataGenerator{
                     i + "', " + transactiontypes[ThreadLocalRandom.current().nextInt(0, transactiontypes.length)] +
                     ", " + expensetypes[ThreadLocalRandom.current().nextInt(0, expensetypes.length)] + ", '" + paymentReference[ThreadLocalRandom.current().nextInt(0, paymentReference.length)] +
                     "', '" + amounts[ThreadLocalRandom.current().nextInt(0, amounts.length)] + ")" ;
-            this.mySQLUtils.executeQuery(RANDOM_ACCOUNT_QUERY);
+            MySQLUtils.executeQuery(RANDOM_ACCOUNT_QUERY);
 
         }
     }
@@ -72,13 +71,13 @@ public class Transaction implements DataGenerator{
                 "expense_type varchar, date_of_occurrence varchar, payment_reference varchar, amount double " +
                 "CONSTRAINT fk_sender FOREIGN KEY(sender_account) REFERENCES account(id))"+
                 "CONSTRAINT fk_receiver FOREIGN KEY(receiver_account) REFERENCES account(id))";
-        this.mySQLUtils.executeQuery(CREATE_TRANSACTION_TABLE_QUERY);
+        MySQLUtils.executeQuery(CREATE_TRANSACTION_TABLE_QUERY);
     }
 
     @Override
     public void dropTable() {
         String DROP_TRANSACTION_IF_EXISTS_QUERY = "DROP TABLE IF EXISTS transaction";
-        this.mySQLUtils.executeQuery(DROP_TRANSACTION_IF_EXISTS_QUERY);
+        MySQLUtils.executeQuery(DROP_TRANSACTION_IF_EXISTS_QUERY);
 
     }
 }

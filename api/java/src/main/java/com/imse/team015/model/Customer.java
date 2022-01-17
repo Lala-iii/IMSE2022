@@ -33,7 +33,6 @@ public class Customer  implements DataGenerator{
     //private String street_with_no;
     //private String city;
     //private String postal_code;
-    private MySQLUtils mySQLUtils = new MySQLUtils();
 
 
     @Override
@@ -61,7 +60,7 @@ public class Customer  implements DataGenerator{
                      lastNames[ThreadLocalRandom.current().nextInt(0, lastNames.length)]+ "', " + genders[ThreadLocalRandom.current().nextInt(0, genders.length)] +
                      "," + svnrs[ThreadLocalRandom.current().nextInt(0, svnrs.length)]+ ", " + date[ThreadLocalRandom.current().nextInt(0, date.length)] +
                      ", '" + addresses[ThreadLocalRandom.current().nextInt(0, addresses.length)] + ")" ;
-             this.mySQLUtils.executeQuery(RANDOM_CUSTOMER_QUERY);
+             MySQLUtils.executeQuery(RANDOM_CUSTOMER_QUERY);
 
          }
 
@@ -72,13 +71,13 @@ public class Customer  implements DataGenerator{
         String CREATE_CUSTOMER_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS customer(id int primary key," +
                 "firstname varchar, " +
                 "lastname varchar, gender varchar, svnr int, date_of_birth varchar, address varchar,";
-        this.mySQLUtils.executeQuery(CREATE_CUSTOMER_TABLE_QUERY);
+        MySQLUtils.executeQuery(CREATE_CUSTOMER_TABLE_QUERY);
     }
 
     @Override
     public void dropTable() {
         String DROP_CUSTOMER_IF_EXISTS_QUERY = "DROP TABLE IF EXISTS customer";
-        this.mySQLUtils.executeQuery(DROP_CUSTOMER_IF_EXISTS_QUERY);
+        MySQLUtils.executeQuery(DROP_CUSTOMER_IF_EXISTS_QUERY);
     }
 
 }

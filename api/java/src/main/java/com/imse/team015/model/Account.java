@@ -29,7 +29,6 @@ public class Account implements DataGenerator {
     private String currency;
     private Long owner; // customerid
 
-   private MySQLUtils mySQLUtils = new MySQLUtils();
 
     @Override
     public void generateData(){
@@ -57,7 +56,7 @@ public class Account implements DataGenerator {
                     ", " + bics[ThreadLocalRandom.current().nextInt(0, bics.length)] + ", '" + balances[ThreadLocalRandom.current().nextInt(0, balances.length)] +
                     "', '" + currencies[ThreadLocalRandom.current().nextInt(0, currencies.length)] + ","+ i + ")" ;
 
-            this.mySQLUtils.executeQuery(RANDOM_ACCOUNT_QUERY);
+            MySQLUtils.executeQuery(RANDOM_ACCOUNT_QUERY);
         }
     }
 
@@ -67,13 +66,16 @@ public class Account implements DataGenerator {
                 "account_type varchar, " +
                 "date_of_creation varchar, iban varchar, bic varchar, balance double, currency varchar," +
                 "CONSTRAINT fk_owner FOREIGN KEY(owner) REFERENCES customer(id))";
-        this.mySQLUtils.executeQuery(CREATE_ACCOUNT_TABLE_QUERY);
+        MySQLUtils.executeQuery(CREATE_ACCOUNT_TABLE_QUERY);
     }
+
     @Override
     public  void dropTable() {
         String DROP_ACCOUNT_IF_EXISTS_QUERY = "DROP TABLE IF EXISTS account";
-        this.mySQLUtils.executeQuery(DROP_ACCOUNT_IF_EXISTS_QUERY );
+        MySQLUtils.executeQuery(DROP_ACCOUNT_IF_EXISTS_QUERY );
     }
+
+
 
 
 }

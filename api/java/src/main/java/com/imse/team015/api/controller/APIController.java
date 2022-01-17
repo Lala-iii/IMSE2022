@@ -1,14 +1,19 @@
 package com.imse.team015.api.controller;
 
 
+import com.imse.team015.api.dao.MySQLUtils;
 import com.imse.team015.api.service.APIDataService;
+import com.imse.team015.model.Account;
 import com.imse.team015.model.Customer;
+import com.imse.team015.model.Transaction;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin
 @RestController
+@Controller
 public class APIController {
 
     private final APIDataService service;
@@ -105,5 +110,16 @@ public class APIController {
     @GetMapping("/switchToMySQL")
     void switchToMySQL() {
         service.switchToMongo(false);
+    }
+
+    @GetMapping("/initiate")
+    void initiate() {
+        Customer c = new Customer();
+        Account a = new Account();
+        Transaction t = new Transaction();
+
+        MySQLUtils.createDB();
+        c.createTable();
+        c.generateData();
     }
 }

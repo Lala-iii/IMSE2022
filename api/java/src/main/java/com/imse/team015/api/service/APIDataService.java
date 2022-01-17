@@ -16,7 +16,7 @@ public class APIDataService {
     private IRepository iRepository;
 
     @Autowired
-    public APIDataService(IRepository iRepository) {
+    public APIDataService() {
         this.iRepository = new MySQLRepository();
     }
 
@@ -65,7 +65,7 @@ public class APIDataService {
     public void updateCustomer(Long id, String payload) {
         Gson gson = new Gson();
         Customer c = gson.fromJson(payload, Customer.class);
-        iRepository.createCustomer(c);
+        iRepository.updateCustomer(id, c);
     }
 
     public void deleteCustomer(Long id) {
@@ -85,7 +85,7 @@ public class APIDataService {
     public void updateAccount(Long id, String payload) {
         Gson gson = new Gson();
         Account a = gson.fromJson(payload, Account.class);
-        iRepository.createAccount(a);
+        iRepository.updateAccount(id, a);
     }
 
     public void deleteAccount(Long id) {
