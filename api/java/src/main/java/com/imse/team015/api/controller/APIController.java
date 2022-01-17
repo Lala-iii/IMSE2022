@@ -6,6 +6,7 @@ import com.imse.team015.api.service.APIDataService;
 import com.imse.team015.model.Account;
 import com.imse.team015.model.Customer;
 import com.imse.team015.model.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +14,14 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@Controller
+@RequestMapping()
 public class APIController {
 
     private final APIDataService service;
     //private final CustomerReposiory customerReposiory;
-    public APIController(APIDataService service) {
-        this.service = service;
+
+    public APIController() {
+        this.service = new APIDataService();
     }
 
     /*@GetMapping("/data_generator")
@@ -118,7 +120,7 @@ public class APIController {
         Account a = new Account();
         Transaction t = new Transaction();
 
-        MySQLUtils.createDB();
+        //MySQLUtils.createDB();
         c.createTable();
         c.generateData();
     }

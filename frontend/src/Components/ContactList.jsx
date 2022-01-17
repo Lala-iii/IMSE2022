@@ -1,8 +1,14 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { transactions } from "../Dummy/Constants";
 
 function ContactList() {
-  const [data, setData] = useState(transactions);
+  const [customers, setCustomers] = useState([]);
+
+  axios
+    .get(`http://localhost:8080/customer/`)
+    .then((result) => setCustomers(result.data))
+    .catch((error) => console.log("Error", error));
   return (
     <div>
       <div class="flex items-center justify-center min-h-screen bg-indigo-300">
@@ -11,30 +17,43 @@ function ContactList() {
             <table class="table text-gray-800 border-separate space-y-6 text-sm">
               <thead class="bg-indigo-200 text-gray-900">
                 <tr>
-                  <th class="p-3 text-left">Contact</th>
-                  <th class="p-3 text-left">Category</th>
+                  <th class="p-3 text-left">Customer</th>
+                  <th class="p-3 text-left">Gender</th>
+                  <th class="p-3 text-left">SVNR</th>
+                  <th class="p-3 text-left">Date of birth</th>
+                  <th class="p-3 text-left">Address</th>
                   <th class="p-3 text-left">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {data.map((item) => {
+                {customers.map((item) => {
                   return (
                     <tr class="bg-indigo-200">
                       <td class="p-3">
                         <div class="flex align-items-center">
                           <div class="ml-3">
                             <div class="">
-                              {item.receiver.firstname} {item.receiver.lastname}
-                            </div>
-                            <div class="text-gray-500">
-                              {item.receiver.iban}
+                              {item.id}: {item.firstname} {item.lastname}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td class="p-3">
-                        <span class="bg-green-400 text-gray-50 rounded-md px-2">
-                          {item.category}
+                        <span class="flex align-items-center">
+                          {item.gender}
+                        </span>
+                      </td>
+                      <td class="p-3">
+                        <span class="flex align-items-center">{item.svnr}</span>
+                      </td>
+                      <td class="p-3">
+                        <span class="flex align-items-center">
+                          {item.date_of_birth}
+                        </span>
+                      </td>
+                      <td class="p-3">
+                        <span class="flex align-items-center">
+                          {item.address}
                         </span>
                       </td>
                       <td class="p-3 ">

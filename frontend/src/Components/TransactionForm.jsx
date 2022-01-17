@@ -40,12 +40,12 @@ function TransactionForm() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/expense-type/`)
+      .get(`http://localhost:8080/expense-type/`)
       .then((result) => setExpenseTypes(result.data))
       .catch((error) => console.log("Error", error));
 
     axios
-      .get(`http://localhost:8000/transaction-type/`)
+      .get(`http://localhost:8080/transaction-type/`)
       .then((result) => setTransactionTypes(result.data))
       .catch((error) => console.log("Error", error));
 
@@ -55,12 +55,12 @@ function TransactionForm() {
       .catch((error) => console.log("Error", error));
 
     axios
-      .get(`http://localhost:8000/account/`)
+      .get(`http://localhost:8080/account/`)
       .then((result) => setAccounts(result.data))
       .catch((error) => console.log("Error", error));
 
     axios
-      .get(`http://localhost:8000/customer/`)
+      .get(`http://localhost:8080/customer/`)
       .then((result) => setCustomers(result.data))
       .catch((error) => console.log("Error", error));
   }, []);

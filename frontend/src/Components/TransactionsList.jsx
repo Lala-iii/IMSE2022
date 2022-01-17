@@ -13,7 +13,7 @@ function TransactionsList() {
 
   const fetch = () => {
     axios
-      .get(`http://localhost:8000/transaction/`)
+      .get(`http://localhost:8080/transaction/`)
       .then((result) => setTransactions(result.data))
       .catch((error) => console.log("Error", error));
   };

@@ -7,21 +7,26 @@ import com.imse.team015.model.Account;
 import com.imse.team015.model.Customer;
 import com.imse.team015.model.Transaction;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class MySQLRepository implements IRepository {
+    private static final String base_url = "jdbc:mysql://localhost:3306/";
+    private static final String url = base_url + "bankapp";
+    private static final String username = "admin";
+    private static final String password = "admin";
+
+
     public void deleteTransaction(Long id) {
         String query = "DELETE FROM transaction WHERE id = " + id + ";";
-        MySQLUtils.executeQuery(query);
+        MySQLUtils.executeUpdate(query);
     }
 
     public void createTransaction(Transaction t) {
         String query = "INSERT INTO transaction (sender_account, receiver_account, transaction_type, expense_type, date_of_occurrence, payment_reference, amount)" +
                 " VALUES (" + t.getSender_account() + ", " + t.getReceiver_account() + ", " + t.getTransaction_type() + ", " +
                 t.getExpense_type() + ", " + t.getDate_of_occurrence() + ", " + t.getPayment_reference() + ", " + t.getAmount() + ");";
-        MySQLUtils.ExecuteUpdate(query);
+        MySQLUtils.executeUpdate(query);
     }
 
     public void updateTransaction(Long id, Transaction t) {
@@ -32,15 +37,17 @@ public class MySQLRepository implements IRepository {
                 ", expense_type = ," + t.getExpense_type() +
                 ", date_of_occurrence = " + t.getDate_of_occurrence() +
                 ", payment_reference = " + t.getPayment_reference() +
-                ", amount = "  + t.getTransaction_type() +
+                ", amount = " + t.getTransaction_type() +
                 " WHERE id = " + id + ";";
-        MySQLUtils.ExecuteUpdate(query);
+        MySQLUtils.executeUpdate(query);
     }
 
     public String findTransaction(Long id) {
         String query = "SELECT * FROM transaction WHERE id = " + id + ";";
-        ResultSet resultSet = MySQLUtils.executeQuery(query);
-        try {
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             Statement statement = conn.createStatement();) {
+
+            ResultSet resultSet = statement.executeQuery(query);
             if (!resultSet.next())
                 return null;
             else {
@@ -93,7 +100,7 @@ public class MySQLRepository implements IRepository {
     @Override
     public void deleteAccount(Long id) {
         String query = "DELETE FROM account WHERE id = " + id + ";";
-        MySQLUtils.executeQuery(query);
+        MySQLUtils.executeUpdate(query);
     }
 
     @Override
@@ -101,7 +108,7 @@ public class MySQLRepository implements IRepository {
         String query = "INSERT INTO account (owner, account_type, date_of_creation, iban, bic, balance, currency)" +
                 " VALUES (" + a.getOwner() + ", " + a.getAccount_type() + ", " + a.getDate_of_creation() + ", " +
                 a.getIban() + ", " + a.getBic() + ", " + a.getBalance() + ", " + a.getCurrency() + ");";
-        MySQLUtils.ExecuteUpdate(query);
+        MySQLUtils.executeUpdate(query);
     }
 
     @Override
@@ -113,16 +120,18 @@ public class MySQLRepository implements IRepository {
                 ", iban = ," + a.getIban() +
                 ", bic = " + a.getBic() +
                 ", balance = " + a.getBalance() +
-                ", currency = "  + a.getCurrency() +
+                ", currency = " + a.getCurrency() +
                 " WHERE id = " + id + ";";
-        MySQLUtils.ExecuteUpdate(query);
+        MySQLUtils.executeUpdate(query);
     }
 
     @Override
     public String findAccount(Long id) {
         String query = "SELECT * FROM account WHERE id = " + id + ";";
-        ResultSet resultSet = MySQLUtils.executeQuery(query);
-        try {
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             Statement statement = conn.createStatement();) {
+
+            ResultSet resultSet = statement.executeQuery(query);
             if (!resultSet.next())
                 return null;
             else {
@@ -155,8 +164,10 @@ public class MySQLRepository implements IRepository {
     public String findAllAccounts() {
         String query = "SELECT * FROM customer;";
         ArrayList<Account> accounts = new ArrayList<>();
-        ResultSet resultSet = MySQLUtils.executeQuery(query);
-        try {
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             Statement statement = conn.createStatement();) {
+
+            ResultSet resultSet = statement.executeQuery(query);
             if (!resultSet.next())
                 return null;
             do {
@@ -173,15 +184,15 @@ public class MySQLRepository implements IRepository {
     @Override
     public void deleteCustomer(Long id) {
         String query = "DELETE FROM account WHERE id = " + id + ";";
-        MySQLUtils.executeQuery(query);
+        MySQLUtils.executeUpdate(query);
     }
 
     @Override
     public void createCustomer(Customer c) {
         String query = "INSERT INTO customer (firstname, lastname, gender, svnr, date_of_birth, address)" +
                 " VALUES (" + c.getFirstname() + ", " + c.getLastname() + ", " + c.getGender() + ", " +
-                c.getSvnr() + ", " + c.getDate_of_birth() + ", " + c.getAddress()  + ");";
-        MySQLUtils.ExecuteUpdate(query);
+                c.getSvnr() + ", " + c.getDate_of_birth() + ", " + c.getAddress() + ");";
+        MySQLUtils.executeUpdate(query);
     }
 
     @Override
@@ -194,14 +205,17 @@ public class MySQLRepository implements IRepository {
                 ", date_of_birth = " + c.getDate_of_birth() +
                 ", address = " + c.getAddress() +
                 " WHERE id = " + id + ";";
-        MySQLUtils.ExecuteUpdate(query);
+        MySQLUtils.executeUpdate(query);
     }
 
     @Override
     public String findCustomer(Long id) {
         String query = "SELECT * FROM customer WHERE id = " + id + ";";
-        ResultSet resultSet = MySQLUtils.executeQuery(query);
-        try {
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             Statement statement = conn.createStatement();) {
+
+            ResultSet resultSet = statement.executeQuery(query);
             if (!resultSet.next())
                 return null;
             else {
@@ -235,8 +249,10 @@ public class MySQLRepository implements IRepository {
     public String findAllCustomers() {
         String query = "SELECT * FROM customer;";
         ArrayList<Customer> customers = new ArrayList<>();
-        ResultSet resultSet = MySQLUtils.executeQuery(query);
-        try {
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             Statement statement = conn.createStatement();) {
+
+            ResultSet resultSet = statement.executeQuery(query);
             if (!resultSet.next())
                 return null;
             do {

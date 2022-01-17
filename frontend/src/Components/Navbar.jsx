@@ -110,7 +110,7 @@ function Navbar() {
                     onClick={() => setCurrent("contacts")}
                     className={focusNavigation("contacts")}
                   >
-                    Contacts
+                    Customer List
                   </button>
                 </Link>
               </li>

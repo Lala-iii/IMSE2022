@@ -1,10 +1,7 @@
 package com.imse.team015.model;
 
 import com.imse.team015.api.dao.MySQLUtils;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Data
 public class Customer  implements DataGenerator{
 
     @Id
@@ -44,23 +42,25 @@ public class Customer  implements DataGenerator{
         String[] lastNames = new String[] {"Botros", "Gumpendorfer", "Engels", "Donko","Musterman",
                 "Vigne","Aldente", "Prichtine", "Week","Pitt", "Rives","Hathaway",
                 "Geissler", "Wagner","Hofer","Grande","Timberlake", "Batur","Yaman","Muller", "Schneider","Schmidt"};
-        String[] genders = new String[] {"w","m"};
+        String[] genders = new String[] {"female","male"};
         Integer[] svnrs = new Integer[] {1234586,2764312,286312,3289410,2635443,8276535,
                 52446268,7812355,862155,21628827,23535272,26342552,26352442,84846465,88923563};
         //Date[] dates = new Date[]{};
-        String[] date = new String[] {"12-3-21", "15-10-20", "18-10-20", "4-4-21", "24-1-21",
-                "12-5-21","11-7-17", "3-5-10","4-8-9","10-5-16","8-9-9","1-10-19","7-6-05","17-4-14","11-6-12"};
+        String[] date = new String[] {"12-3-1990", "15-10-1991", "18-10-1988", "4-4-1994", "24-1-1998",
+                "12-5-1992","11-7-1993", "3-5-1990","4-8-1970","10-5-1980","8-9-1990","1-10-1996","7-6-1999","17-4-1990","11-6-2002"};
         String[] addresses = new String[] {"Vereinsgasse 4/11","Gumpendorferstrasse 39", "Johngasse 4",
                 "Lacknergasse 21", "Laudongasse 31", "Mitterberggasse 23",
                 "Stutterheimstrasse 18/16","Laaerberggasse 45/4","Garnisongasse 9/10",
                 "Wiedner Hauptstrasse 20", "Taborstrasse 11"};
-         for(int i = 0; i< 100; i++){
-             String RANDOM_CUSTOMER_QUERY = "INSERT INTO customer(id,firstname, lastname, gender, svnr, date_of_birth, address) " +
+         for(int i = 0; i< 30; i++){
+             String RANDOM_CUSTOMER_QUERY = "INSERT INTO customer(id, firstname, lastname, gender, svnr, date_of_birth, address) " +
                      "VALUES (" + i + ",'" + firstNames[ThreadLocalRandom.current().nextInt(0, firstNames.length)] + "', '" +
-                     lastNames[ThreadLocalRandom.current().nextInt(0, lastNames.length)]+ "', " + genders[ThreadLocalRandom.current().nextInt(0, genders.length)] +
-                     "," + svnrs[ThreadLocalRandom.current().nextInt(0, svnrs.length)]+ ", " + date[ThreadLocalRandom.current().nextInt(0, date.length)] +
-                     ", '" + addresses[ThreadLocalRandom.current().nextInt(0, addresses.length)] + ")" ;
-             MySQLUtils.executeQuery(RANDOM_CUSTOMER_QUERY);
+                     lastNames[ThreadLocalRandom.current().nextInt(0, lastNames.length)]+ "', '" + genders[ThreadLocalRandom.current().nextInt(0, genders.length)] +
+                     "', " + svnrs[ThreadLocalRandom.current().nextInt(0, svnrs.length)]+ ", '" + date[ThreadLocalRandom.current().nextInt(0, date.length)] +
+                     "', '" + addresses[ThreadLocalRandom.current().nextInt(0, addresses.length)] + "');" ;
+
+             System.out.println(RANDOM_CUSTOMER_QUERY);
+             MySQLUtils.executeUpdate(RANDOM_CUSTOMER_QUERY);
 
          }
 
@@ -68,16 +68,15 @@ public class Customer  implements DataGenerator{
 
     @Override
     public void createTable() {
-        String CREATE_CUSTOMER_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS customer(id int primary key," +
-                "firstname varchar, " +
-                "lastname varchar, gender varchar, svnr int, date_of_birth varchar, address varchar,";
-        MySQLUtils.executeQuery(CREATE_CUSTOMER_TABLE_QUERY);
+        String CREATE_CUSTOMER_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS customer(id INT PRIMARY KEY," +
+                "firstname VARCHAR(100), lastname VARCHAR(100), gender VARCHAR(100), svnr INT, date_of_birth VARCHAR(100), address VARCHAR(100));";
+        MySQLUtils.executeUpdate(CREATE_CUSTOMER_TABLE_QUERY);
     }
 
     @Override
     public void dropTable() {
-        String DROP_CUSTOMER_IF_EXISTS_QUERY = "DROP TABLE IF EXISTS customer";
-        MySQLUtils.executeQuery(DROP_CUSTOMER_IF_EXISTS_QUERY);
+        String DROP_CUSTOMER_IF_EXISTS_QUERY = "DROP TABLE IF EXISTS customer;";
+        MySQLUtils.executeUpdate(DROP_CUSTOMER_IF_EXISTS_QUERY);
     }
 
 }
