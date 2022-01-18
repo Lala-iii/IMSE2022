@@ -7,7 +7,7 @@ import CreateAccount from "./Pages/CreateAccount";
 import CreateTransaction from "./Pages/CreateTransaction";
 import ShowTransactions from "./Pages/ShowTransactions";
 import Settings from "./Pages/Settings";
-import Contacts from "./Pages/Contacts";
+import Customers from "./Pages/Customers";
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
           element={<CreateTransaction />}
         />
 
-        <Route exact path="/Contacts" element={<Contacts />} />
+        <Route exact path="/Customers" element={<Customers />} />
         <Route exact path="/showTransactions" element={<ShowTransactions />} />
         <Route exact path="/settings" element={<Settings />} />
       </Routes>

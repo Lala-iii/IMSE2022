@@ -52,9 +52,9 @@ public class Customer  implements DataGenerator{
                 "Lacknergasse 21", "Laudongasse 31", "Mitterberggasse 23",
                 "Stutterheimstrasse 18/16","Laaerberggasse 45/4","Garnisongasse 9/10",
                 "Wiedner Hauptstrasse 20", "Taborstrasse 11"};
-         for(int i = 0; i< 30; i++){
-             String RANDOM_CUSTOMER_QUERY = "INSERT INTO customer(id, firstname, lastname, gender, svnr, date_of_birth, address) " +
-                     "VALUES (" + i + ",'" + firstNames[ThreadLocalRandom.current().nextInt(0, firstNames.length)] + "', '" +
+         for(int i = 0; i< 100; i++){
+             String RANDOM_CUSTOMER_QUERY = "INSERT INTO customer(firstname, lastname, gender, svnr, date_of_birth, address) " +
+                     "VALUES (" + "'" + firstNames[ThreadLocalRandom.current().nextInt(0, firstNames.length)] + "', '" +
                      lastNames[ThreadLocalRandom.current().nextInt(0, lastNames.length)]+ "', '" + genders[ThreadLocalRandom.current().nextInt(0, genders.length)] +
                      "', " + svnrs[ThreadLocalRandom.current().nextInt(0, svnrs.length)]+ ", '" + date[ThreadLocalRandom.current().nextInt(0, date.length)] +
                      "', '" + addresses[ThreadLocalRandom.current().nextInt(0, addresses.length)] + "');" ;
@@ -68,7 +68,7 @@ public class Customer  implements DataGenerator{
 
     @Override
     public void createTable() {
-        String CREATE_CUSTOMER_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS customer(id INT PRIMARY KEY," +
+        String CREATE_CUSTOMER_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS customer(id INT PRIMARY KEY AUTO_INCREMENT," +
                 "firstname VARCHAR(100), lastname VARCHAR(100), gender VARCHAR(100), svnr INT, date_of_birth VARCHAR(100), address VARCHAR(100));";
         MySQLUtils.executeUpdate(CREATE_CUSTOMER_TABLE_QUERY);
     }

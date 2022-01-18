@@ -30,7 +30,7 @@ function TransactionsList() {
       .catch((error) => console.log("Error", error));
 
     axios
-      .get(`http://localhost:8000/customer/`)
+      .get(`http://localhost:8080/customer/`)
       .then((result) => setCustomers(result.data))
       .catch((error) => console.log("Error", error));
   }, []);
@@ -39,7 +39,7 @@ function TransactionsList() {
     transaction.expense_type = changedExpenseType;
     console.log(transaction);
     axios
-      .put(`http://localhost:8000/transaction/${transaction.id}/`, transaction)
+      .put(`http://localhost:8080/transaction/${transaction.id}/`, transaction)
       .then((result) => fetch())
       .catch((error) => console.log("Error", error));
     fetch();
@@ -78,55 +78,36 @@ function TransactionsList() {
                           <div>no Data</div>
                         )}
                       </div>
-                      <div class="text-gray-500"></div>
                       <div class="text-gray-500">{item.payment_reference}</div>
                     </div>
                   </div>
                 </td>
+                <td class="p-3">{item.transaction_type}</td>
 
-                {ttype ? (
-                  <td class="p-3">{ttype.description}</td>
-                ) : (
-                  <td class="p-3">No data</td>
-                )}
                 <td class="p-3 font-bold">{item.amount} €</td>
                 <td class="p-3">
-                  {etype ? (
-                    <div>
-                      {item.id === edit_id ? (
-                        <div>
-                          <select
-                            className="bg-indigo-600 text-gray-50 rounded-md px-2"
-                            required
-                            name="expensetype"
-                            id="expensetype"
-                            value={currentExpenseType}
-                            onChange={(e) => {
-                              setChangedExpenseType(e.target.value);
-                              setTransaction(item);
-                              setCurrentExpenseType(e.target.value);
-                            }}
-                          >
-                            {expenseTypes?.map((element) => {
-                              return (
-                                <option value={element.id}>
-                                  {element.description}
-                                </option>
-                              );
-                            })}
-                          </select>
-                        </div>
-                      ) : (
-                        <span class="bg-indigo-600 text-gray-50 rounded-md px-2">
-                          {etype.description}
-                        </span>
-                      )}
-                    </div>
-                  ) : (
-                    <span class="bg-green-400 text-gray-50 rounded-md px-2">
-                      no Data
-                    </span>
-                  )}
+                  <div>
+                    {item.id === edit_id ? (
+                      <div>
+                        <input
+                          className="bg-indigo-400 text-gray-50 rounded-md px-2"
+                          required
+                          name="expensetype"
+                          id="expensetype"
+                          value={currentExpenseType}
+                          onChange={(e) => {
+                            setChangedExpenseType(e.target.value);
+                            setTransaction(item);
+                            setCurrentExpenseType(e.target.value);
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <span class="bg-indigo-600 text-gray-50 rounded-md px-2">
+                        {item.expense_type}
+                      </span>
+                    )}
+                  </div>
                 </td>
                 <td class="p-3 ">
                   <a href="#" class="text-gray-500 hover:text-gray-100  mx-2">

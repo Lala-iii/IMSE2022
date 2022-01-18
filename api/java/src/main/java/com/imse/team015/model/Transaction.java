@@ -6,6 +6,8 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -51,31 +53,51 @@ public class Transaction implements DataGenerator{
                 4975.5,2984.90,987.35,65123.78,90.45,34.23,847.06,2675.09,1334.67,
                 214.56,114.56,3456.78,321.90,823.45,298.67,2948.45,890.12,234.56,9654.12,746.01,
                 921.34,921.32,892.34,9104.67,204.33,112.34,321.45,2234.56,224.11,1207.89,216.31,121.11};
+
+        ArrayList<Integer> customers = new ArrayList<>();
+
+        String query = "SELECT DISTINCT id FROM account;";
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bankapp", "admin", "admin");
+             Statement statement = conn.createStatement();) {
+
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()){
+                customers.add(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+
+        }
+
         for(int i=0; i<100;i++){
-            String RANDOM_ACCOUNT_QUERY = "INSERT INTO transaction(id, sender_account, receiver_account, transaction_type, date_of_occurrence, payment_reference, amount) " +
-                    "VALUES (" + i + ", " + i + ", " +
-                    i + " ,'" + transactiontypes[ThreadLocalRandom.current().nextInt(0, transactiontypes.length)] +
-                    "', " + expensetypes[ThreadLocalRandom.current().nextInt(0, expensetypes.length)] + "', '" + paymentReference[ThreadLocalRandom.current().nextInt(0, paymentReference.length)] +
+            String RANDOM_ACCOUNT_QUERY = "INSERT INTO transaction(sender_account, receiver_account, transaction_type, expense_type, date_of_occurrence, payment_reference, amount) " +
+                    "VALUES ("
+                    + customers.get(ThreadLocalRandom.current().nextInt(0, customers.size())) +
+                    ", " + customers.get(ThreadLocalRandom.current().nextInt(0, customers.size())) +
+                    " ,'" + transactiontypes[ThreadLocalRandom.current().nextInt(0, transactiontypes.length)] +
+                    "', '" + expensetypes[ThreadLocalRandom.current().nextInt(0, expensetypes.length)] +
+                    "', '" + date[ThreadLocalRandom.current().nextInt(0, date.length)] +
+                    "', '" + paymentReference[ThreadLocalRandom.current().nextInt(0, paymentReference.length)] +
                     "', " + amounts[ThreadLocalRandom.current().nextInt(0, amounts.length)] + ")" ;
-            MySQLUtils.executeQuery(RANDOM_ACCOUNT_QUERY);
+            System.out.println(RANDOM_ACCOUNT_QUERY);
+            MySQLUtils.executeUpdate(RANDOM_ACCOUNT_QUERY);
 
         }
     }
 
     @Override
     public void createTable() {
-        String CREATE_TRANSACTION_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS transaction(id INT PRIMARY KEY," +
-                "transaction_type VARCHAR(100), " +
-                "expense_type VARCHAR(100), date_of_occurrence VARCHAR(100), payment_reference VARCHAR(100), amount DOUBLE(10,2) " +
-                "CONSTRAINT fk_sender FOREIGN KEY(sender_account) REFERENCES account(id))"+
-                "CONSTRAINT fk_receiver FOREIGN KEY(receiver_account) REFERENCES account(id))";
-        MySQLUtils.executeQuery(CREATE_TRANSACTION_TABLE_QUERY);
+        String CREATE_TRANSACTION_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS transaction(id INT PRIMARY KEY AUTO_INCREMENT," +
+                "sender_account INT, receiver_account INT, transaction_type VARCHAR(100), " +
+                "expense_type VARCHAR(100), date_of_occurrence VARCHAR(100), payment_reference VARCHAR(100), amount DOUBLE(10,2), " +
+                "CONSTRAINT fk_sender FOREIGN KEY(sender_account) REFERENCES account(id), "+
+                "CONSTRAINT fk_receiver FOREIGN KEY(receiver_account) REFERENCES account(id));";
+        MySQLUtils.executeUpdate(CREATE_TRANSACTION_TABLE_QUERY);
     }
 
     @Override
     public void dropTable() {
-        String DROP_TRANSACTION_IF_EXISTS_QUERY = "DROP TABLE IF EXISTS transaction";
-        MySQLUtils.executeQuery(DROP_TRANSACTION_IF_EXISTS_QUERY);
+        String DROP_TRANSACTION_IF_EXISTS_QUERY = "DROP TABLE IF EXISTS transaction;";
+        MySQLUtils.executeUpdate(DROP_TRANSACTION_IF_EXISTS_QUERY);
 
     }
 }

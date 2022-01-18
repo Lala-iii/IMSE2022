@@ -120,8 +120,21 @@ public class APIController {
         Account a = new Account();
         Transaction t = new Transaction();
 
+        t.dropTable();
+        a.dropTable();
+        c.dropTable();
+
         //MySQLUtils.createDB();
         c.createTable();
         c.generateData();
+
+        a.createTable();
+        a.generateData();
+
+        t.createTable();
+        t.generateData();
+        //t.dropTable();
     }
+
+
 }
