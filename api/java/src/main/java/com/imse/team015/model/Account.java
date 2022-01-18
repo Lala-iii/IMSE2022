@@ -48,11 +48,11 @@ public class Account implements DataGenerator {
                 22.67,34675.78,235.12,8762.34,9832.67,9037.67,23721.10,10232.34,8624.45,87946.67,34231.40,23641.40};
         String[] currencies = new String[] {"EUR","GBP","AEL","TRY"};
         for(int i=0; i<100; i++){
-            String RANDOM_ACCOUNT_QUERY = "INSERT INTO account(id, owner, account_type, date_of_creation, iban, bic, balance, currency) " +
-                    "VALUES (" + i + ",'" + accountypes[ThreadLocalRandom.current().nextInt(0, accountypes.length)] + "', '" +
-                    date[ThreadLocalRandom.current().nextInt(0, date.length)]+ "', " + ibans[ThreadLocalRandom.current().nextInt(0, ibans.length)] +
-                    ", " + bics[ThreadLocalRandom.current().nextInt(0, bics.length)] + ", '" + balances[ThreadLocalRandom.current().nextInt(0, balances.length)] +
-                    "', '" + currencies[ThreadLocalRandom.current().nextInt(0, currencies.length)] + ","+ i + ")" ;
+            String RANDOM_ACCOUNT_QUERY = "INSERT INTO account(id, account_type, date_of_creation, iban, bic, balance, currency, owner) " +
+                    "VALUES (" + i + ", '" + accountypes[ThreadLocalRandom.current().nextInt(0, accountypes.length)] + "', '" +
+                    date[ThreadLocalRandom.current().nextInt(0, date.length)]+ "', '" + ibans[ThreadLocalRandom.current().nextInt(0, ibans.length)] +
+                    "', '" + bics[ThreadLocalRandom.current().nextInt(0, bics.length)] + "', " + balances[ThreadLocalRandom.current().nextInt(0, balances.length)] +
+                    "', " + currencies[ThreadLocalRandom.current().nextInt(0, currencies.length)] + ","+ i + ")" ;
 
             MySQLUtils.executeQuery(RANDOM_ACCOUNT_QUERY);
         }
@@ -60,9 +60,9 @@ public class Account implements DataGenerator {
 
     @Override
     public  void createTable() {
-        String CREATE_ACCOUNT_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS account(id int primary key," +
-                "account_type varchar, " +
-                "date_of_creation varchar, iban varchar, bic varchar, balance double, currency varchar," +
+        String CREATE_ACCOUNT_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS account(id INT PRIMARY KEY," +
+                "account_type VARCHAR(100), " +
+                "date_of_creation VARCHAR(100), iban VARCHAR(100), bic VARCHAR(100), balance DOUBLE(10,2), currency VARCHAR(10)," +
                 "CONSTRAINT fk_owner FOREIGN KEY(owner) REFERENCES customer(id))";
         MySQLUtils.executeQuery(CREATE_ACCOUNT_TABLE_QUERY);
     }
