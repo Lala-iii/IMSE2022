@@ -52,7 +52,7 @@ public class Account implements DataGenerator {
 
         ArrayList<Integer> customers = new ArrayList<>();
         String query = "SELECT DISTINCT id FROM customer;";
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bankapp", "admin", "admin");
+        try (Connection conn = DriverManager.getConnection(MySQLUtils.url, MySQLUtils.username, MySQLUtils.password);
              Statement statement = conn.createStatement();) {
 
             ResultSet resultSet = statement.executeQuery(query);

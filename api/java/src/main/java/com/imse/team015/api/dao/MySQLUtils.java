@@ -2,11 +2,12 @@ package com.imse.team015.api.dao;
 
 import java.sql.*;
 
+
 public class MySQLUtils {
-    private static final String base_url = "jdbc:mysql://localhost:3306/";
-    private static final String url = base_url + "bankapp" ;
-    private static final String username = "admin";
-    private static final String password = "admin";
+    public static final String base_url = "jdbc:mysql://db:3306/";
+    public static final String url = base_url + "bankapp" ;
+    public static final String username = "admin";
+    public static final String password = "admin";
 
     public static void executeUpdate(String query) {
         try (Connection conn = DriverManager.getConnection(url, username, password);

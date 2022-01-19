@@ -11,10 +11,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class MySQLRepository implements IRepository {
-    private static final String base_url = "jdbc:mysql://localhost:3306/";
-    private static final String url = base_url + "bankapp";
-    private static final String username = "admin";
-    private static final String password = "admin";
 
 
     public void deleteTransaction(Long id) {
@@ -44,7 +40,7 @@ public class MySQLRepository implements IRepository {
 
     public String findTransaction(Long id) {
         String query = "SELECT * FROM transaction WHERE id = " + id + ";";
-        try (Connection conn = DriverManager.getConnection(url, username, password);
+        try (Connection conn = DriverManager.getConnection(MySQLUtils.url, MySQLUtils.username, MySQLUtils.password);
              Statement statement = conn.createStatement();) {
 
             ResultSet resultSet = statement.executeQuery(query);
@@ -81,7 +77,7 @@ public class MySQLRepository implements IRepository {
     public String findAllTransactions() {
         String query = "SELECT * FROM transaction;";
         ArrayList<Transaction> transactions = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(url, username, password);
+        try (Connection conn = DriverManager.getConnection(MySQLUtils.url, MySQLUtils.username, MySQLUtils.password);
              Statement statement = conn.createStatement();) {
 
             ResultSet resultSet = statement.executeQuery(query);
@@ -130,7 +126,7 @@ public class MySQLRepository implements IRepository {
     @Override
     public String findAccount(Long id) {
         String query = "SELECT * FROM account WHERE id = " + id + ";";
-        try (Connection conn = DriverManager.getConnection(url, username, password);
+        try (Connection conn = DriverManager.getConnection(MySQLUtils.url, MySQLUtils.username, MySQLUtils.password);
              Statement statement = conn.createStatement();) {
 
             ResultSet resultSet = statement.executeQuery(query);
@@ -166,7 +162,7 @@ public class MySQLRepository implements IRepository {
     public String findAllAccounts() {
         String query = "SELECT * FROM account;";
         ArrayList<Account> accounts = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(url, username, password);
+        try (Connection conn = DriverManager.getConnection(MySQLUtils.url, MySQLUtils.username, MySQLUtils.password);
              Statement statement = conn.createStatement();) {
 
             ResultSet resultSet = statement.executeQuery(query);
@@ -214,7 +210,7 @@ public class MySQLRepository implements IRepository {
     public String findCustomer(Long id) {
         String query = "SELECT * FROM customer WHERE id = " + id + ";";
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
+        try (Connection conn = DriverManager.getConnection(MySQLUtils.url, MySQLUtils.username, MySQLUtils.password);
              Statement statement = conn.createStatement();) {
 
             ResultSet resultSet = statement.executeQuery(query);
@@ -251,7 +247,7 @@ public class MySQLRepository implements IRepository {
     public String findAllCustomers() {
         String query = "SELECT * FROM customer;";
         ArrayList<Customer> customers = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(url, username, password);
+        try (Connection conn = DriverManager.getConnection(MySQLUtils.url, MySQLUtils.username, MySQLUtils.password);
              Statement statement = conn.createStatement();) {
 
             ResultSet resultSet = statement.executeQuery(query);

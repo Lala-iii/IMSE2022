@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 services:
   db:
     image: mysql:latest
@@ -8,28 +8,43 @@ services:
       MYSQL_USER: "admin"
       MYSQL_PASSWORD: "admin"
       MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_ROOT_HOST: '%'
     ports:
       - "3306:3306"
     expose:
       - "3306"
+    networks:
+      - imse_network
     volumes:
       - my-db:/var/lib/mysql
 
   api:
-    build: ./api/java
+    build: ./api
     restart: always
+    ports:
+      - "8080:8080"
     expose:
       - 8080
+    networks:
+      - imse_network
     depends_on:
       - db
 
   frontend:
     build: ./frontend
     restart: always
+    ports:
+      - "3000:3000"
     expose:
       - 3000
+    networks:
+      - imse_network
     depends_on:
       - api
 
 volumes:
   my-db:
+
+networks:
+  imse_network:
+    driver: bridge
