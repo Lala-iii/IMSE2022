@@ -6,7 +6,6 @@ import LandingPage from "./Pages/LandingPage";
 import CreateAccount from "./Pages/CreateAccount";
 import CreateTransaction from "./Pages/CreateTransaction";
 import ShowTransactions from "./Pages/ShowTransactions";
-import Settings from "./Pages/Settings";
 import Customers from "./Pages/Customers";
 
 function App() {
@@ -24,7 +23,6 @@ function App() {
 
         <Route exact path="/Customers" element={<Customers />} />
         <Route exact path="/showTransactions" element={<ShowTransactions />} />
-        <Route exact path="/settings" element={<Settings />} />
       </Routes>
     </BrowserRouter>
   );

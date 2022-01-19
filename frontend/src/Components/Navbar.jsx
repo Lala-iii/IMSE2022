@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Navbar() {
   const [current, setCurrent] = useState("");
+  const initiateDB = () => {
+    axios
+      .get(`http://localhost:8080/initiate`)
+      .catch((error) => console.log("Error", error));
+  };
   const focusNavigation = (value) => {
     return (
       "block py-2 pr-4 pl-3" +
@@ -125,14 +131,12 @@ function Navbar() {
                 </Link>
               </li>
               <li>
-                <Link to="settings">
-                  <button
-                    onClick={() => setCurrent("settings")}
-                    className={focusNavigation("settings")}
-                  >
-                    Settings
-                  </button>
-                </Link>
+                <button
+                  onClick={() => initiateDB()}
+                  className="block py-2 pr-4 pl-3 text-gray-600 dark:text-gray-400"
+                >
+                  Initiate Database
+                </button>
               </li>
             </ul>
           </div>

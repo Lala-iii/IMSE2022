@@ -89,8 +89,8 @@ public class Transaction implements DataGenerator{
         String CREATE_TRANSACTION_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS transaction(id INT PRIMARY KEY AUTO_INCREMENT," +
                 "sender_account INT, receiver_account INT, transaction_type VARCHAR(100), " +
                 "expense_type VARCHAR(100), date_of_occurrence VARCHAR(100), payment_reference VARCHAR(100), amount DOUBLE(10,2), " +
-                "CONSTRAINT fk_sender FOREIGN KEY(sender_account) REFERENCES account(id), "+
-                "CONSTRAINT fk_receiver FOREIGN KEY(receiver_account) REFERENCES account(id));";
+                "CONSTRAINT fk_sender FOREIGN KEY(sender_account) REFERENCES account(id) ON DELETE SET NULL, "+
+                "CONSTRAINT fk_receiver FOREIGN KEY(receiver_account) REFERENCES account(id) ON DELETE SET NULL);";
         MySQLUtils.executeUpdate(CREATE_TRANSACTION_TABLE_QUERY);
     }
 

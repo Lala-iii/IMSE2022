@@ -9,6 +9,12 @@ function ContactList() {
     .get(`http://localhost:8080/customer/`)
     .then((result) => setCustomers(result.data))
     .catch((error) => console.log("Error", error));
+
+  const deleteCustomer = (id) => {
+    axios
+      .delete(`http://localhost:8080/customer/${id}`)
+      .catch((error) => console.log("Error", error));
+  };
   return (
     <div>
       <div class="flex items-center justify-center min-h-screen bg-indigo-300">
@@ -30,7 +36,7 @@ function ContactList() {
                   <tr key={item.id} class="bg-indigo-200">
                     <td class="p-3">
                       <div class="flex align-items-center">
-                        {item.id}: {item.firstname} {item.lastname}
+                        {item.firstname} {item.lastname}
                       </div>
                     </td>
                     <td class="p-3">
@@ -52,15 +58,14 @@ function ContactList() {
                     <td class="p-3 ">
                       <a
                         href="#"
-                        class="text-gray-500 hover:text-gray-100  mx-2"
-                      >
-                        <i class="material-icons-outlined text-base">edit</i>
-                      </a>
-                      <a
-                        href="#"
                         class="text-gray-500 hover:text-gray-100  ml-2"
                       >
-                        <i class="material-icons-round text-base">delete</i>
+                        <button
+                          class="material-icons-round text-base"
+                          onClick={() => deleteCustomer(item.id)}
+                        >
+                          delete
+                        </button>
                       </a>
                     </td>
                   </tr>

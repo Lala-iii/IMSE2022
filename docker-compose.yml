@@ -8,15 +8,15 @@ services:
       MYSQL_USER: "admin"
       MYSQL_PASSWORD: "admin"
       MYSQL_ROOT_PASSWORD: "password"
-      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_HOST: "%"
     ports:
       - "3306:3306"
     expose:
       - "3306"
     networks:
       - imse_network
-    volumes:
-      - my-db:/var/lib/mysql
+    #volumes:
+    #  - my-db:/var/lib/mysql
 
   api:
     build: ./api
@@ -42,8 +42,8 @@ services:
     depends_on:
       - api
 
-volumes:
-  my-db:
+#volumes:
+#  my-db:
 
 networks:
   imse_network:

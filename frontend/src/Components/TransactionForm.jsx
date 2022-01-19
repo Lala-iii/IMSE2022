@@ -1,59 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { iban } from "../Dummy/Constants";
 import axios from "axios";
 
 function TransactionForm() {
   const [from, setFrom] = useState("none");
+
+  const [fromiban, setFromiban] = useState("none");
+  const [toiban, setToiban] = useState("none");
   const [to, setTo] = useState("");
   const [type, setType] = useState("");
   const [ref, setRef] = useState("");
   const [amount, setAmount] = useState("");
-  //const [occurrenceDate, setOccurrenceDate] = useState("");
   const [eType, setEType] = useState("");
 
-  const [customer, setCustomer] = useState({});
-  const [expenseTypes, setExpenseTypes] = useState([]);
-  const [transactionTypes, setTransactionTypes] = useState([]);
+  const [accfilteredFrom, setAccfilteredFrom] = useState([]);
+  const [accfilteredTo, setAccfilteredTo] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [accounts, setAccounts] = useState([]);
 
   const classError =
     "w-full bg-indigo-100 px-4 py-2 h-8 rounded-lg focus:outline-none";
   const classNoError =
-    "w-full bg-green-100 px-4 py-2 h-8 rounded-lg focus:outline-none";
+    "w-full bg-indigo-100 px-4 py-2 h-8 rounded-lg focus:outline-none";
   let error = false;
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (from === "none") error = true;
     else error = false;
     const transaction = {
-      date_of_occurrence: new Date().toLocaleDateString(),
-      sender: from,
-      receiver: to,
-      transaction_type: type,
-      payment_reference: ref,
+      id: 0,
+      sender_account: fromiban,
+      receiver_account: toiban,
       expense_type: eType,
+      transaction_type: type,
+      date_of_occurrence: new Date().toLocaleDateString(),
+      payment_reference: ref,
       amount: amount,
     };
+    axios
+      .post(`http://localhost:8080/transaction/`, transaction)
+      //.then((result) => )
+      .catch((error) => console.log("Error", error));
     console.log(transaction);
   };
 
+  const getAccountsOfOwnerFrom = (owner) => {
+    setAccfilteredFrom(accounts.filter((a) => a.owner == owner));
+  };
+  const getAccountsOfOwnerTo = (owner) => {
+    setAccfilteredTo(accounts.filter((a) => a.owner == owner));
+  };
+
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/expense-type/`)
-      .then((result) => setExpenseTypes(result.data))
-      .catch((error) => console.log("Error", error));
-
-    axios
-      .get(`http://localhost:8080/transaction-type/`)
-      .then((result) => setTransactionTypes(result.data))
-      .catch((error) => console.log("Error", error));
-
-    axios
-      .get(`http://localhost:8000/customer/1/`)
-      .then((result) => setCustomer(result.data))
-      .catch((error) => console.log("Error", error));
-
     axios
       .get(`http://localhost:8080/account/`)
       .then((result) => setAccounts(result.data))
@@ -87,18 +84,52 @@ function TransactionForm() {
                 name="from"
                 id="from"
                 placeholder="from"
-                onChange={(e) => setFrom(e.target.value)}
+                onChange={(e) => {
+                  setFrom(e.target.value);
+                  getAccountsOfOwnerFrom(e.target.value);
+                }}
               >
-                <option value="none">---Please select your account---</option>
-                {accounts?.map((element) => {
+                <option value="none">---Please select your Customer---</option>
+                {customers?.map((cust_from) => {
                   return (
-                    <option value={element.iban}>
-                      {element.iban} - {element.balance}
+                    <option value={cust_from.id}>
+                      {cust_from.firstname} {cust_from.lastname}
                     </option>
                   );
                 })}
               </select>
             </div>
+            <div>
+              <label
+                class="text-gray-800 font-semibold block mt-3 text-md"
+                for="fromiban"
+              >
+                From IBAN
+              </label>
+              <select
+                className={error ? classError : classNoError}
+                required
+                value={fromiban}
+                name="fromiban"
+                id="fromiban"
+                placeholder=""
+                onChange={(e) => {
+                  setFromiban(e.target.value);
+                }}
+              >
+                <option value="none">
+                  ---Please select your Customers IBAN---
+                </option>
+                {accfilteredFrom?.map((cust_acc_from) => {
+                  return (
+                    <option value={cust_acc_from.id}>
+                      {cust_acc_from.id}: {cust_acc_from.iban}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+
             <div>
               <label
                 class="text-gray-800 font-semibold block mt-3 text-md"
@@ -113,14 +144,41 @@ function TransactionForm() {
                 name="to"
                 id="to"
                 placeholder="to"
-                onChange={(e) => setTo(e.target.value)}
+                onChange={(e) => {
+                  setTo(e.target.value);
+                  getAccountsOfOwnerTo(e.target.value);
+                }}
               >
                 <option value="">---Please select your contact---</option>
-                {accounts?.map((element) => {
+                {customers?.map((cust_to) => {
                   return (
-                    <option value={element.iban}>
-                      {element.iban} - {element.balance}
+                    <option value={cust_to.id}>
+                      {cust_to.firstname} {cust_to.lastname}
                     </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-800 font-semibold block mt-3 text-md"
+                for="to"
+              >
+                To IBAN
+              </label>
+              <select
+                className="w-full bg-indigo-100 px-4 py-2 h-8 rounded-lg focus:outline-none"
+                required
+                value={toiban}
+                name="toiban"
+                id="toiban"
+                placeholder=""
+                onChange={(e) => setToiban(e.target.value)}
+              >
+                <option value="none">---Please select your contact---</option>
+                {accfilteredTo?.map((cust_acc_to) => {
+                  return (
+                    <option value={cust_acc_to.id}>{cust_acc_to.iban}</option>
                   );
                 })}
               </select>
@@ -132,22 +190,16 @@ function TransactionForm() {
               >
                 Transaction Type
               </label>
-              <select
+              <input
                 className="w-full bg-indigo-100 px-4 py-2 h-8 rounded-lg focus:outline-none"
                 required
                 value={type}
                 name="transaction_type"
                 id="transaction_type"
-                placeholder="normal"
+                placeholder=""
+                type="text"
                 onChange={(e) => setType(e.target.value)}
-              >
-                <option value="">---Please select a transaction type---</option>
-                {transactionTypes?.map((element) => {
-                  return (
-                    <option value={element.id}>{element.description}</option>
-                  );
-                })}
-              </select>
+              />
             </div>
             <div>
               <label
@@ -156,22 +208,16 @@ function TransactionForm() {
               >
                 Expense Type
               </label>
-              <select
+              <input
                 className="w-full bg-indigo-100 px-4 py-2 h-8 rounded-lg focus:outline-none"
                 required
                 value={eType}
                 name="expense_type"
                 id="expense_type"
-                placeholder="normal"
+                placeholder=""
+                type="text"
                 onChange={(e) => setEType(e.target.value)}
-              >
-                <option value="">---Please select a expense type---</option>
-                {expenseTypes?.map((element) => {
-                  return (
-                    <option value={element.id}>{element.description}</option>
-                  );
-                })}
-              </select>
+              />
             </div>
             <div>
               <label

@@ -4,7 +4,7 @@ import TransactionsList from "../Components/TransactionsList";
 function LandingPage() {
   return (
     <div>
-      <TransactionsList />
+      <h1></h1>
     </div>
   );
 }

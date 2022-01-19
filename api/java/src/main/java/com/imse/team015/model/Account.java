@@ -82,7 +82,7 @@ public class Account implements DataGenerator {
         String CREATE_ACCOUNT_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS account(id INT PRIMARY KEY AUTO_INCREMENT," +
                 "owner INT, account_type VARCHAR(100), " +
                 "date_of_creation VARCHAR(100), iban VARCHAR(100), bic VARCHAR(100), balance DOUBLE(10,2), currency VARCHAR(10)," +
-                "CONSTRAINT fk_owner FOREIGN KEY(owner) REFERENCES customer(id));";
+                "CONSTRAINT fk_owner FOREIGN KEY(owner) REFERENCES customer(id) ON DELETE CASCADE);";
         MySQLUtils.executeUpdate(CREATE_ACCOUNT_TABLE_QUERY);
     }
 
