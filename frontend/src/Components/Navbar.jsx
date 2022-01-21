@@ -9,6 +9,12 @@ function Navbar() {
       .get(`http://localhost:8080/initiate`)
       .catch((error) => console.log("Error", error));
   };
+
+  const migrateDB = () => {
+    axios
+        .get(`http://localhost:8080/migrate`)
+        .catch((error) => console.log("Error", error));
+  };
   const focusNavigation = (value) => {
     return (
       "block py-2 pr-4 pl-3" +
@@ -132,10 +138,18 @@ function Navbar() {
               </li>
               <li>
                 <button
-                  onClick={() => initiateDB()}
-                  className="block py-2 pr-4 pl-3 text-gray-600 dark:text-gray-400"
+                    onClick={() => initiateDB()}
+                    className="block py-2 pr-4 pl-3 text-gray-600 dark:text-gray-400"
                 >
                   Initiate Database
+                </button>
+              </li>
+              <li>
+                <button
+                    onClick={() => migrateDB()}
+                    className="block py-2 pr-4 pl-3 text-gray-600 dark:text-gray-400"
+                >
+                  Migrate Database
                 </button>
               </li>
             </ul>

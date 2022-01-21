@@ -57,7 +57,7 @@ public class MongoRepository implements IRepository {
         MongoCollection<Document> transactionCollection = database.getCollection("transaction");
 
         Document doc = new Document("_id", new ObjectId())
-                .append("id", t.getId())
+                .append("id", id)
                 .append("sender_account", t.getSender_account())
                 .append("receiver_account", t.getReceiver_account())
                 .append("transaction_type", t.getTransaction_type())
@@ -66,7 +66,12 @@ public class MongoRepository implements IRepository {
                 .append("payment_reference", t.getPayment_reference())
                 .append("amount", t.getAmount());
 
-        transactionCollection.updateOne(Filters.eq("id", id), doc);
+
+        transactionCollection.deleteOne(Filters.eq("id", id));
+        transactionCollection.insertOne(doc);
+
+
+        //transactionCollection.updateOne(Filters.eq("id", id), new Document("$set", doc);
     }
 
     @Override

@@ -93,7 +93,7 @@ function TransactionForm() {
                 {customers?.map((cust_from) => {
                   return (
                     <option value={cust_from.id}>
-                      {cust_from.firstname} {cust_from.lastname}
+                      {cust_from.id}: {cust_from.firstname} {cust_from.lastname}
                     </option>
                   );
                 })}
@@ -113,8 +113,8 @@ function TransactionForm() {
                 name="fromiban"
                 id="fromiban"
                 placeholder=""
-                onChange={(e) => {
-                  setFromiban(e.target.value);
+                onChange={(efi) => {
+                  setFromiban(efi.target.value);
                 }}
               >
                 <option value="none">
@@ -153,7 +153,7 @@ function TransactionForm() {
                 {customers?.map((cust_to) => {
                   return (
                     <option value={cust_to.id}>
-                      {cust_to.firstname} {cust_to.lastname}
+                      {cust_to.id}: {cust_to.firstname} {cust_to.lastname}
                     </option>
                   );
                 })}
@@ -173,12 +173,14 @@ function TransactionForm() {
                 name="toiban"
                 id="toiban"
                 placeholder=""
-                onChange={(e) => setToiban(e.target.value)}
+                onChange={(eti) => setToiban(eti.target.value)}
               >
                 <option value="none">---Please select your contact---</option>
                 {accfilteredTo?.map((cust_acc_to) => {
                   return (
-                    <option value={cust_acc_to.id}>{cust_acc_to.iban}</option>
+                    <option value={cust_acc_to.id}>
+                      {cust_acc_to.id}:{cust_acc_to.iban}
+                    </option>
                   );
                 })}
               </select>

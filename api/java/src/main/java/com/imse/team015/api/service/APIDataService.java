@@ -19,7 +19,7 @@ public class APIDataService {
 
     @Autowired
     public APIDataService() {
-        this.iRepository = new MongoRepository();
+        this.iRepository = new MySQLRepository();
     }
 
     public String getTransactions() {

@@ -10,6 +10,7 @@ function TransactionsList() {
   const [transactionTypes, setTransactionTypes] = useState([]);
   const [edit_id, setEditID] = useState("");
   const [currentExpenseType, setCurrentExpenseType] = useState("");
+  const [accounts, setAccounts] = useState([]);
 
   const fetch = () => {
     axios
@@ -20,13 +21,8 @@ function TransactionsList() {
   useEffect(() => {
     fetch();
     axios
-      .get(`http://localhost:8000/expense-type/`)
-      .then((result) => setExpenseTypes(result.data))
-      .catch((error) => console.log("Error", error));
-
-    axios
-      .get(`http://localhost:8000/transaction-type/`)
-      .then((result) => setTransactionTypes(result.data))
+      .get(`http://localhost:8080/account/`)
+      .then((result) => setAccounts(result.data))
       .catch((error) => console.log("Error", error));
 
     axios
@@ -58,12 +54,9 @@ function TransactionsList() {
         </thead>
         <tbody>
           {transactions?.map((item) => {
-            const cust = customers?.find((c) => c.id === item.receiver_account);
-            const ttype = transactionTypes?.find(
-              (t) => t.id === item.transaction_type
-            );
+            const acc = accounts?.find((a) => a.id == item.receiver_account);
+            const cust = customers?.find((c) => c.id == acc.owner);
 
-            const etype = expenseTypes?.find((e) => e.id === item.expense_type);
             return (
               <tr key={item.id} class="bg-indigo-200">
                 <td class="p-3">

@@ -29,6 +29,7 @@ services:
       - imse_network
     depends_on:
       - db
+      - mongo
 
   frontend:
     build: ./frontend
@@ -53,6 +54,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - imse_network
 
 #volumes:
 #  my-db:
