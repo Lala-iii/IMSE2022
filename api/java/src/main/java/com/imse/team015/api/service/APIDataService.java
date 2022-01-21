@@ -11,20 +11,15 @@ import com.imse.team015.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class APIDataService {
     private IRepository iRepository;
 
     @Autowired
     public APIDataService() {
-        this.iRepository = new MySQLRepository();
-    }
-
-    public void switchToMongo(boolean active) {
-        if (active)
-            iRepository = new MongoRepository();
-        else
-            iRepository = new MySQLRepository();
+        this.iRepository = new MongoRepository();
     }
 
     public String getTransactions() {
@@ -90,6 +85,26 @@ public class APIDataService {
 
     public void deleteAccount(Long id) {
         iRepository.deleteAccount(id);
+    }
+
+    public void migrate() {
+        MySQLRepository mysql = new MySQLRepository();
+        iRepository = new MongoRepository();
+        ArrayList<Customer> allCustomerObjects = mysql.findAllCustomerObjects();
+        ArrayList<Account> allAccountObjects = mysql.findAllAccountObjects();
+        ArrayList<Transaction> allTransactionObjects = mysql.findAllTransactionObjects();
+
+        for (Customer c: allCustomerObjects) {
+            iRepository.createCustomer(c);
+        }
+
+        for (Account a: allAccountObjects) {
+            iRepository.createAccount(a);
+        }
+
+        for (Transaction t: allTransactionObjects) {
+            iRepository.createTransaction(t);
+        }
     }
 
 }

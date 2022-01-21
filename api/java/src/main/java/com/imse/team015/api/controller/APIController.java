@@ -104,14 +104,9 @@ public class APIController {
         service.deleteAccount(id);
     }
 
-    @GetMapping("/switchToMongo")
+    @GetMapping("/migrate")
     void switchDatabase() {
-        service.switchToMongo(true);
-    }
-
-    @GetMapping("/switchToMySQL")
-    void switchToMySQL() {
-        service.switchToMongo(false);
+        service.migrate();
     }
 
     @GetMapping("/initiate")
@@ -124,7 +119,6 @@ public class APIController {
         a.dropTable();
         c.dropTable();
 
-        //MySQLUtils.createDB();
         c.createTable();
         c.generateData();
 
@@ -133,7 +127,6 @@ public class APIController {
 
         t.createTable();
         t.generateData();
-        //t.dropTable();
     }
 
 

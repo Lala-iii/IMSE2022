@@ -181,7 +181,7 @@ public class MySQLRepository implements IRepository {
 
     @Override
     public void deleteCustomer(Long id) {
-        String query = "DELETE FROM account WHERE id = " + id + ";";
+        String query = "DELETE FROM customer WHERE id = " + id + ";";
         MySQLUtils.executeUpdate(query);
     }
 
@@ -258,6 +258,64 @@ public class MySQLRepository implements IRepository {
             } while (resultSet.next());
             Gson gson = new Gson();
             return gson.toJson(customers);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Customer> findAllCustomerObjects() {
+        String query = "SELECT * FROM customer;";
+        ArrayList<Customer> customers = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(MySQLUtils.url, MySQLUtils.username, MySQLUtils.password);
+             Statement statement = conn.createStatement();) {
+
+            ResultSet resultSet = statement.executeQuery(query);
+            if (!resultSet.next())
+                return null;
+            do {
+                customers.add(fillCustomer(resultSet));
+            } while (resultSet.next());
+            return customers;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Account> findAllAccountObjects() {
+        String query = "SELECT * FROM account;";
+        ArrayList<Account> accounts = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(MySQLUtils.url, MySQLUtils.username, MySQLUtils.password);
+             Statement statement = conn.createStatement();) {
+
+            ResultSet resultSet = statement.executeQuery(query);
+            if (!resultSet.next())
+                return null;
+            do {
+                accounts.add(fillAccount(resultSet));
+            } while (resultSet.next());
+            return accounts;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Transaction> findAllTransactionObjects() {
+        String query = "SELECT * FROM transaction;";
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(MySQLUtils.url, MySQLUtils.username, MySQLUtils.password);
+             Statement statement = conn.createStatement();) {
+
+            ResultSet resultSet = statement.executeQuery(query);
+            if (!resultSet.next())
+                return null;
+            do {
+
+                transactions.add(fillTransaction(resultSet));
+            } while (resultSet.next());
+            return transactions;
         } catch (SQLException e) {
             e.printStackTrace();
         }
