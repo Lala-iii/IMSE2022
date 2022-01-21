@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MongoRepository implements IRepository {
-    private final String connString = "mongodb://admin:admin@localhost";
+    private final String connString = "mongodb://admin:admin@mongo";
 
     private static long customerID = 1;
     private static long accountID = 1;
