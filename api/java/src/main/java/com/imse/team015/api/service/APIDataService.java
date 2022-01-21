@@ -94,17 +94,27 @@ public class APIDataService {
         ArrayList<Account> allAccountObjects = mysql.findAllAccountObjects();
         ArrayList<Transaction> allTransactionObjects = mysql.findAllTransactionObjects();
 
+        long i = 1;
+
         for (Customer c: allCustomerObjects) {
-            iRepository.createCustomer(c);
+            ((MongoRepository)iRepository).migrateCustomer(c);
+            i++;
         }
+        MongoRepository.setCustomerID(i);
 
+        i = 1;
         for (Account a: allAccountObjects) {
-            iRepository.createAccount(a);
+            ((MongoRepository)iRepository).migrateAccount(a);
+            i++;
         }
+        MongoRepository.setAccountID(i);
 
+        i = 1;
         for (Transaction t: allTransactionObjects) {
-            iRepository.createTransaction(t);
+            ((MongoRepository)iRepository).migrateTransaction(t);
+            i++;
         }
+        MongoRepository.setTransactionID(i);
     }
 
 }

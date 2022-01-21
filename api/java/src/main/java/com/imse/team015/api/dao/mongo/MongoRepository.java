@@ -20,6 +20,73 @@ public class MongoRepository implements IRepository {
     private static long accountID = 1;
     private static long transactionID = 1;
 
+    public static void setCustomerID(long id) {
+        customerID = id;
+    }
+
+    public static void setAccountID(long id) {
+        accountID = id;
+    }
+
+    public static void setTransactionID(long id) {
+        transactionID = id;
+    }
+
+
+
+    public void migrateTransaction(Transaction t) {
+        MongoClient mongoClient = MongoClients.create(connString);
+        MongoDatabase database = mongoClient.getDatabase("bankapp");
+        MongoCollection<Document> transactionCollection = database.getCollection("transaction");
+
+        Document doc = new Document("_id", new ObjectId())
+                .append("id", t.getId())
+                .append("sender_account", t.getSender_account())
+                .append("receiver_account", t.getReceiver_account())
+                .append("transaction_type", t.getTransaction_type())
+                .append("expense_type", t.getExpense_type())
+                .append("date_of_occurrence", t.getDate_of_occurrence())
+                .append("payment_reference", t.getPayment_reference())
+                .append("amount", t.getAmount());
+
+        transactionCollection.insertOne(doc);
+    }
+
+    public void migrateAccount(Account a) {
+        MongoClient mongoClient = MongoClients.create(connString);
+        MongoDatabase database = mongoClient.getDatabase("bankapp");
+        MongoCollection<Document> accountCollection = database.getCollection("account");
+
+        Document doc = new Document("_id", new ObjectId())
+                .append("id", a.getId())
+                .append("account_type", a.getAccount_type())
+                .append("date_of_creation", a.getDate_of_creation())
+                .append("iban", a.getIban())
+                .append("bic", a.getBic())
+                .append("balance", a.getBalance())
+                .append("currency", a.getCurrency())
+                .append("owner", a.getOwner());
+
+        accountCollection.insertOne(doc);
+    }
+
+    public void migrateCustomer(Customer c) {
+        MongoClient mongoClient = MongoClients.create(connString);
+        MongoDatabase database = mongoClient.getDatabase("bankapp");
+        MongoCollection<Document> customersCollection = database.getCollection("customer");
+
+        Document doc = new Document("_id", new ObjectId())
+                .append("id", c.getId())
+                .append("firstname", c.getFirstname())
+                .append("lastname", c.getLastname())
+                .append("gender", c.getGender())
+                .append("svnr", c.getSvnr())
+                .append("date_of_birth", c.getDate_of_birth())
+                .append("address", c.getAddress());
+
+        customersCollection.insertOne(doc);
+    }
+
 
     @Override
     public void deleteTransaction(Long id) {
