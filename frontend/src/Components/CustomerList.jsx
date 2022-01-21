@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { transactions } from "../Dummy/Constants";
 
 function ContactList() {
   const [customers, setCustomers] = useState([]);
-
-  axios
-    .get(`http://localhost:8080/customer/`)
-    .then((result) => setCustomers(result.data))
-    .catch((error) => console.log("Error", error));
-
+  const [selectedId, setSelectedId] = useState("");
+  //const [isLoading, setIsLoading] = useState(false);
   const deleteCustomer = (id) => {
+    console.log(id);
     axios
-      .delete(`http://localhost:8080/customer/${id}`)
+      .delete(`http://localhost:8080/customer/${id}/`)
       .catch((error) => console.log("Error", error));
   };
+  const fetchData = () => {
+    axios
+      .get(`http://localhost:8080/customer/`)
+      .then((result) => setCustomers(result.data))
+      .catch((error) => console.log("Error", error));
+  };
+
+  useEffect(() => {
+    deleteCustomer(selectedId);
+    fetchData();
+  }, [selectedId]);
+
   return (
     <div>
       <div class="flex items-center justify-center min-h-screen bg-indigo-300">
@@ -31,7 +39,7 @@ function ContactList() {
               </tr>
             </thead>
             <tbody>
-              {customers.map((item) => {
+              {customers?.map((item) => {
                 return (
                   <tr key={item.id} class="bg-indigo-200">
                     <td class="p-3">
@@ -56,17 +64,12 @@ function ContactList() {
                       </span>
                     </td>
                     <td class="p-3 ">
-                      <a
-                        href="#"
-                        class="text-gray-500 hover:text-gray-100  ml-2"
+                      <button
+                        class="material-icons-round text-base text-gray-500 hover:text-gray-100  ml-2"
+                        onClick={() => setSelectedId(item.id)}
                       >
-                        <button
-                          class="material-icons-round text-base"
-                          onClick={() => deleteCustomer(item.id)}
-                        >
-                          delete
-                        </button>
-                      </a>
+                        delete
+                      </button>
                     </td>
                   </tr>
                 );
